@@ -5,7 +5,7 @@ FROM rust AS builder
 WORKDIR /app
 
 # Copy the Cargo.toml and Cargo.lock files to the working directory
-COPY Cargo.toml Cargo.lock ./
+COPY Cargo.toml Cargo.lock ./Rocket.toml ./
 
 # precache deps?
 
