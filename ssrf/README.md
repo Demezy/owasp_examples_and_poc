@@ -13,3 +13,9 @@ So, at leas it could be used to broke intra network isolation, as a proxy for da
 
 get concrete file:
 ```http://127.0.0.1:8000/content/fb2f15c8-d92f-43c4-b752-773d82f39c56.jpg```
+
+How to fix:
+- add validation for response mimetype
+- make strict policy for deny any access to internal network (since service does not require one)
+- place server behind filtering proxy that drop all packages with suspecious requests (nginx has plenty of configs for it)
+- clear get paramenters (since this is significant attack surface)
