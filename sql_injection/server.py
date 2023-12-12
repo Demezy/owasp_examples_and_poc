@@ -18,6 +18,7 @@ def index():
     <html>
 <head>
     <title>Todo app!</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
@@ -83,6 +84,7 @@ def query_page():
     <html>
 <head>
     <title>Todo app!</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
