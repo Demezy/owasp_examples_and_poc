@@ -18,6 +18,8 @@ RUN cargo build --release --bin ssrf
 EXPOSE 8000
 
 WORKDIR /app/target/release
+COPY static ./static
+
 
 RUN mkdir -p ./content\
     && chmod +rx ./ssrf

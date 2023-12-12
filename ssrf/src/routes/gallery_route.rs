@@ -6,7 +6,8 @@ pub async fn gallery() -> RawHtml<String> {
     // get all files in content folder
     let mut paths = fs::read_dir("content").await.unwrap();
 
-    let mut html = String::from("<html><body>");
+    let mut html = String::from("<html><head>");
+    html.push_str(r#"<link rel="stylesheet" type="text/css" href="/static/styles.css"></head>"#);
     // create simple html list of imgs
     while let Some(path) = paths.next_entry().await.unwrap() {
         // let path = path.unwrap().path();
@@ -17,31 +18,38 @@ pub async fn gallery() -> RawHtml<String> {
         ));
     }
     html.push_str(
-        r#"<body>
-        <form id="myForm">
-          <label for="link">Enter URL:</label>
-          <input type="text" id="link" name="link" pattern="https?://.*" title="Please enter a valid URL" placeholder="http://blah.com" required>
-          <input type="submit" value="Submit">
-        </form>
-      
-        <script>
-          document.getElementById('myForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const link = document.getElementById('link').value;
-            const data = { "url": link };
-            fetch('/api/photo_upload', {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json'
-              },
-              body: JSON.stringify(data)
-            }).then(response => {
-                location.reload()
-            }).catch(error => {
-            });
+      r#"<body>
+      <div id="errorContainer" style="color: red;"></div>
+      <form id="galleryForm">
+          <label for="link">Enter Image URL:</label>
+          <input type="url" id="link" name="link" placeholder="http://example.com/image.jpg" required>
+          <button type="submit">Add Image</button>
+      </form>
+
+      <script>
+          document.getElementById('galleryForm').addEventListener('submit', function (e) {
+              e.preventDefault();
+              const link = document.getElementById('link').value;
+              const data = { "url": link };
+              fetch('/api/photo_upload', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify(data)
+              })
+              .then(response => {
+                  if (!response.ok) {
+                      throw new Error('Failed to upload image.');
+                  }
+                  location.reload();
+              })
+              .catch(error => {
+                  document.getElementById('errorContainer').innerText = error.message;
+              });
           });
-        </script>"#,
-    );
+      </script>"#,
+  );
 
     html.push_str("</body></html>");
     RawHtml(html)
