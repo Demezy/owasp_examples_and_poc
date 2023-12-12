@@ -12,6 +12,7 @@ def index():
     <html>
 <head>
     <title>Simple Web Chat</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 
 <body>
