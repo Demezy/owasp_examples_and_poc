@@ -24,4 +24,5 @@ fn rocket() -> _ {
         .mount("/", routes![say_hello, routes::gallery])
         .mount("/api", routes![routes::photo_upload])
         .mount("/content", FileServer::from("content"))
+        .mount("/static", FileServer::from("static"))
 }
