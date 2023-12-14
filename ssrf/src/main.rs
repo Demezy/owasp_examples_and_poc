@@ -1,6 +1,4 @@
-use std::net::IpAddr;
-
-use rocket::fs::FileServer;
+use rocket::{fs::FileServer, response::content::RawHtml};
 
 mod routes;
 mod service;
@@ -10,8 +8,14 @@ extern crate rocket;
 
 // this is our get route hich will be requested at the "/" location wherever it is mounted
 #[get("/")]
-fn say_hello() -> &'static str {
-    "Hello, welcome to the api!"
+async fn say_hello() -> RawHtml<&'static str> {
+    RawHtml(
+        r#"
+        <h1>Welcome to ssrf service.</h1>
+        <p>Rust based service for public image board! Absolutely secure</p>
+    <a href="/gallery">gallery</a>
+    "#,
+    )
 }
 
 // start the web server and mount our get route at "/api". Can replace /api with anything
