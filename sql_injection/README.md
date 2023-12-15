@@ -1,9 +1,11 @@
 # SQL Injection
 
+By default the service is available at `localhost:8002` if run using Docker or
+`localhost:5000` if run locally.
+
 The following service is for maintaining TODO lists. Since the author is a
 procrastinator we can only add tasks but not complete them.
 
-By default the service is available at `localhost:8002`
 
 ## Exploit
 
@@ -12,9 +14,11 @@ Here is link that shows all entries in database. In case of our procrastinator i
 is not that critical, but for a bigger system with access control it it. Do you
 want your tasks to be available?
 
-http://127.0.0.1:5000/query?title=%27%20or%201%3D%3D1%20or%20%27%27%3D%27
+Example of query that would retrieve all todos, not specific one:
 
-<!-- http://127.0.0.1:5000/query?title=1%27%20union%20all%20select%20(%27test%27%2C%20sqlean_fileio(%27super-secret-file.txt%27))%20where%201=1%20or%20%27%27%3D%27; -->
+```bash
+curl "http://localhost:8002/query?title=%27%20OR%20TRUE%3B--"
+```
 
 Failure to escape SQL queries can result in significant security risks,
 providing unrestricted access to the full power of SQL. For instance, it can
